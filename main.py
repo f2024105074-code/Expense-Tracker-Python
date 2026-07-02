@@ -91,7 +91,7 @@ def view_expenses():
     conn.close()
     lbl_total.config(text=f"Total Expenses: Rs. {total}")
 
-    # --- Member 1: Delete Selected Expense Function ---
+    # ---  Delete Selected Expense Function ---
     def delete_expense():
         selected_item = tree.selection()
         if not selected_item:
