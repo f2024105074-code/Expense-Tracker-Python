@@ -91,6 +91,62 @@ def view_expenses():
     conn.close()
     lbl_total.config(text=f"Total Expenses: Rs. {total}")
 
+    # --- Member 1: Delete Selected Expense Function ---
+    def delete_expense():
+        selected_item = tree.selection()
+        if not selected_item:
+            messagebox.showerror("Error", "Please select an expense from the list to delete!")
+            return
+
+        item_details = tree.item(selected_item)
+        values = item_details['values']
+
+        if values:
+            amount_to_del = values[0]
+            category_to_del = values[1]
+            date_to_del = values[2]
+
+            conn = sqlite3.connect("expenses.db")
+            cursor = conn.cursor()
+            cursor.execute("""
+                DELETE FROM expenses 
+                WHERE amount = ? AND category = ? AND date = ?
+            """, (amount_to_del, category_to_del, date_to_del))
+
+            conn.commit()
+            conn.close()
+
+            messagebox.showinfo("Success", "Expense deleted successfully!")
+            view_expenses()
+
+
+def delete_expense():
+    selected_item = tree.selection()
+    if not selected_item:
+        messagebox.showerror("Error", "Please select an expense from the list to delete!")
+        return
+
+    item_details = tree.item(selected_item)
+    values = item_details['values']
+
+    if values:
+        amount_to_del = values[0]
+        category_to_del = values[1]
+        date_to_del = values[2]
+
+        import sqlite3
+        conn = sqlite3.connect("expenses.db")
+        cursor = conn.cursor()
+        cursor.execute("""
+            DELETE FROM expenses 
+            WHERE amount = ? AND category = ? AND date = ?
+        """, (amount_to_del, category_to_del, date_to_del))
+
+        conn.commit()
+        conn.close()
+
+        messagebox.showinfo("Success", "Expense deleted successfully!")
+        view_expenses()
 
 # Buttons and Table UI
 btn_add = tk.Button(
@@ -100,7 +156,9 @@ btn_add.pack(pady=10)
 
 lbl_total = tk.Label(root, text="Total Expenses: Rs. 0", font=("Arial", 12, "bold"))
 lbl_total.pack(pady=5)
-
+# Delete Button UI
+btn_delete = tk.Button(root, text="Delete Selected", command=delete_expense, font=("Arial", 12), bg="red", fg="white")
+btn_delete.pack(pady=5)
 tree = ttk.Treeview(root, columns=("Amount", "Category", "Date"), show="headings", height=8)
 tree.heading("Amount", text="Amount")
 tree.heading("Category", text="Category")
