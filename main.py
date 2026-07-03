@@ -26,7 +26,7 @@ def init_db():
 init_db()
 
 
-# 2. MAIN WINDOW SETUP & STYLING (Member 2's Styling Part)
+# 2. MAIN WINDOW SETUP & STYLING
 
 root = tk.Tk()
 root.title("Personal Expense Tracker")
@@ -140,7 +140,7 @@ def delete_expense():
         messagebox.showinfo("Success", "Expense deleted successfully!")
         view_expenses()
 
-# --- Member 1: Delete Selected Expense Function (Khadija's Part) ---
+# --- Delete Selected Expense Function ---
 def delete_expense():
     selected_item = tree.selection()
     if not selected_item:
